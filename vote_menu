@@ -1,0 +1,33 @@
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton
+from candidate_menu import CandidateMenu
+from result_screen import ResultScreen
+class VoteMenu(QWidget):
+   def __init__(self, total_votes):
+       super().__init__()
+       self.total_votes = total_votes
+       self.init_ui()
+
+   def init_ui(self):
+       self.setWindowTitle('VOTE MENU')
+       layout = QVBoxLayout()
+
+       vote_button = QPushButton('Cast a Vote', self)
+       vote_button.clicked.connect(self.show_candidate_menu)
+
+       exit_button = QPushButton('Exit', self)
+       exit_button.clicked.connect(self.show_result)
+
+       layout.addWidget(vote_button)
+       layout.addWidget(exit_button)
+
+       self.setLayout(layout)
+
+   def show_candidate_menu(self):
+       self.candidate_menu = CandidateMenu(self)
+       self.candidate_menu.show()
+       self.hide()
+
+   def show_result(self):
+       self.result_screen = ResultScreen(self.total_votes)
+       self.result_screen.show()
+       self.hide()
