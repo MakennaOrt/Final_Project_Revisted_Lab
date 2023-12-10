@@ -1,0 +1,42 @@
+import sys
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel
+
+class ResultScreen(QWidget):
+   def __init__(self, total_votes):
+       super().__init__()
+       self.total_votes = total_votes
+       self.init_ui()
+
+
+   def init_ui(self):
+       self.setWindowTitle('RESULTS')
+       layout = QVBoxLayout()
+
+
+       for candidate, votes in self.total_votes.items():
+           label = QLabel(f'{candidate}: {votes} votes', self)
+           layout.addWidget(label)
+
+
+       total_label = QLabel(f'Total Votes: {sum(self.total_votes.values())}', self)
+       layout.addWidget(total_label)
+
+
+       winners = self.find_winners()
+       winner_label = QLabel(f'Winner(s): {"".join(winners)}', self)
+       layout.addWidget(winner_label)
+
+
+       self.setLayout(layout)
+
+
+   def find_winners(self):
+       max_votes = max(self.total_votes.values())
+       winners = [candidate for candidate, votes in self.total_votes.items() if votes == max_votes]
+
+
+       if len(winners) == 1:
+           return winners[0]
+       else:
+           return ' and '.join(winners)
+
