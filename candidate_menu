@@ -1,0 +1,49 @@
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QPushButton, QRadioButton
+
+class CandidateMenu(QWidget):
+   def __init__(self, parent):
+       super().__init__()
+       self.parent = parent
+       self.init_ui()
+
+
+   def init_ui(self):
+       self.setWindowTitle('CANDIDATE MENU')
+       layout = QVBoxLayout()
+
+
+       self.diego_checkbox = QRadioButton('Diego', self)
+       self.allison_checkbox = QRadioButton('Allison', self)
+       self.cameron_checkbox = QRadioButton('Cameron', self)
+
+
+       vote_button = QPushButton('Vote', self)
+       vote_button.clicked.connect(self.cast_vote)
+
+
+       layout.addWidget(self.diego_checkbox)
+       layout.addWidget(self.allison_checkbox)
+       layout.addWidget(self.cameron_checkbox)
+       layout.addWidget(vote_button)
+
+
+       self.setLayout(layout)
+
+
+   def cast_vote(self):
+       if self.diego_checkbox.isChecked():
+           self.parent.total_votes['Diego'] += 1
+       elif self.allison_checkbox.isChecked():
+           self.parent.total_votes['Allison'] += 1
+       elif self.cameron_checkbox.isChecked():
+           self.parent.total_votes['Cameron'] += 1
+
+
+       self.parent.show()
+
+
+       self.hide()
+       self.diego_checkbox.setChecked(False)
+       self.allison_checkbox.setChecked(False)
+       self.cameron_checkbox.setChecked(False)
+
